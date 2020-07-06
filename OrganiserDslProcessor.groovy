@@ -188,7 +188,7 @@ task eachTask
 }
 }
 public def toSigmaStructure(nodes, edges, level) {
-nodes.add([id:id, x:id, y: level, label:description, size:2]);
+nodes.add([id:id, x:Math.random(), y: Math.random(), label:description, size:2]);
 if(this.connectTo != null) {
 edges.add([id: id + 0.0000001, source: id, target: connectTo]);
 }
@@ -196,7 +196,7 @@ def p = id + 1;
 def idProp = id + 0.001;
 properties.each {
 if(it.key == "description" || it.key == "id" || it.key == "connectTo") return;
-nodes.add([id:idProp + "_", x:p, y:level - 0.5, label:"${it.key}=${it.value}", size:1, color:"#10DD92"]);
+nodes.add([id:idProp + "_", x:Math.random(), y:Math.random(), label:"${it.key}=${it.value}", size:1, color:"#10DD92"]);
 edges.add([id:idProp + "_", source:id, target: idProp + "_", color:"#10DD92"]);
 p++;
 idProp += 0.001;

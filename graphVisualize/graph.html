@@ -3,6 +3,8 @@
     <title>si2020</title>
     <script src="/sigma.min.js"></script>
     <script type="text/javascript" src="/plugins/sigma.layout.forceAtlas2.min.js"></script>
+	<script src="/plugins/sigma.layout.forceAtlas2/worker.js"></script>
+	<script src="/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
   <script type="text/javascript">
     fetch("/graph.json").then((response) => {
       if(response.status !== 200) {
@@ -12,6 +14,8 @@
       response.json().then((data) => {
         s.graph.read(data);
         s.refresh();
+          s.startForceAtlas2({slowDown:0.99});
+          setTimeout(() => s.stopForceAtlas2(), 5000);
       });
     });
   </script>
@@ -39,10 +43,6 @@
            }
          }
        );
-s.startForceAtlas2();
-//var graph = {nodes:[{id:101, label:"A", x:1, y:1, size:3}, {id:102, label:"B", x:2, y:1, size:4}], edges:[{id:102, source:101, target:102}]};
-//s.graph.read(graph);
-//s.refresh();
     </script>
   </body>
 </html>
