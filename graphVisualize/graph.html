@@ -14,7 +14,7 @@
       response.json().then((data) => {
         s.graph.read(data);
         s.refresh();
-          s.startForceAtlas2({slowDown:0.99});
+          s.startForceAtlas2();
           setTimeout(() => s.stopForceAtlas2(), 20000);
       });
     });
