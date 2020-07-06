@@ -356,7 +356,7 @@ filteredTasks.each { filterGroup.getTaskList().add(it); println it; }
 new File(GRAPH_FILE).text = filterGroup.toSigmaJson()
 } 
 else if(opt == 'o') {
-new File("graph.json").text = root.toSigmaJson()
+new File(GRAPH_FILE).text = root.toSigmaJson()
 } else if(opt == "v") {
 def filteredTasks = getFilteredTasks(root);
 def fileName = getOutputFileName();
