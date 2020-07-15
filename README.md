@@ -41,7 +41,9 @@ $ task
 
 Choose option `new_plain_task_file` to create a new mind map, or `read_tasks` to open existing encrypted task file.
 vim will open with the editable mind map and graph spec.
-By default lines are folded, which can be toggled with vim's default <kbd>Z</kbd>+<kbd>A</kbd> `[Z]`+`[A]`
+By default lines are folded, which can be toggled with vim's default <kbd>Z</kbd>+<kbd>A</kbd>, closed with <kbd>Z</kbd>+<kbd>C</kbd>, 
+read with <kbd>Z</kbd>+<kbd>R</kbd> :
 ![fold](images/fold.png)
 
-`[Z]` `[A]` 
+Edit the task and save the file with vim's <kbd>:</kbd>+<kbd>w</kbd>.
+Once vim is closed, task file is encrypted with `AES` using key as `SHA256` of password entered, and then `base64`ed and this is decrypted using same process in reverse when read using `task` command.
