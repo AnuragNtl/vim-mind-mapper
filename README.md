@@ -7,7 +7,8 @@ Lets write a simple map of a scene from reservoir dogs as a mind map:
 tasks {
   thought "Scene from reservoir dogs" is {
 
-    //We can add any kind of property(string, list, range, boolean, integer, etc) in any item, and comments too!
+    //We can add any kind of property(string, list, range, boolean, integer, etc) in any item,
+    and comments too!
     thought "Mr Orange is bleeding", playedBy:"Tim Roth"
     thought "Joe thinks Mr. Orange is the rat" is {
       thought "Joe Points the gun at Mr. Orange" is {
@@ -29,6 +30,9 @@ tasks {
   }
 }
 ```
+This is always re-indented and folded when viewed in vim.
+![fold](images/fold.gif)
+
 This gets converted to:
 ![graph](images/graph.gif)
 
@@ -45,7 +49,7 @@ tasks {
   }
 }
 ```
-wwhich gives:
+which gives:
 ![images/colouredGraph.png](images/colouredGraph.png)
 
 ### Installation
