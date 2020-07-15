@@ -2,7 +2,7 @@
 `vim` based command line mind mapping tool
 Create and manipulate complex mind maps using a simple and powerful `Groovy DSL`,
 and `vim`, which helps in lesser context switches of brain, and hence lesser disturbance
-Lets write a simple map of a scene from reservoir dogs as a mind map:
+Lets write a simple scene from reservoir dogs as a mind map:
 ```
 tasks {
   thought "Scene from reservoir dogs" is {
