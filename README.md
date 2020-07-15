@@ -15,9 +15,9 @@ in the browser.
 
 #### Direct
 ##### Requirements:
-*python
-*node js (will auto install if `snap` is present)
-*groovy (will auto install if `snap` is present)
+* python
+* node js (will auto install if `snap` is present)
+* groovy (will auto install if `snap` is present)
 
 Clone `vim-mind-mapper`:
 ```
