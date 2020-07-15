@@ -18,7 +18,7 @@ in the browser.
 * python
 * node js (will auto install if `snap` is present)
 * groovy (will auto install if `snap` is present)
-* vim (will auto install if snap is present)
+* vim (will auto install if `snap` is present)
 
 Clone `vim-mind-mapper`:
 ```
