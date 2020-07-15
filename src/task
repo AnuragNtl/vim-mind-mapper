@@ -1,0 +1,147 @@
+#!/bin/bash
+
+function crypt() {
+        python "${TASK_DIRECTORY}/crypt.py" "$2" "$1"
+}
+echo "*************Tasks : Vim Based Command Line Mind Mapping Tool***********"
+if test $# -eq 0
+then
+echo "Usage : task [tasks_file] [new_plain_task_file | read_tasks | filter_tasks | visualize_tasks | edit_filters | tasks_to_csv | tasks_to_json | decrypt_task_file]"
+fi
+
+if ! which python > /dev/null
+then
+    echo "python not found in your path"
+    exit 1
+fi
+if ! which groovy > /dev/null
+then
+    echo "groovy not found in your path"
+    exit 1
+fi
+if ! which node > /dev/null
+then
+    echo "nodejs not found in your path"
+    exit 1
+fi
+
+if test $# -ge 2
+then
+    tasksFile=$1
+    selectedOption=$2
+elif test $# -eq 1
+then
+    tasksFile=$1
+fi
+
+if [ -z "$selectedOption" ]
+then 
+echo "Please choose an option : "
+select i in new_plain_task_file read_tasks filter_tasks visualize_tasks edit_filters tasks_to_csv tasks_to_json decrypt_task_file Exit
+do
+if test "$i" = "Exit"
+then
+exit 0
+else
+selectedOption=$i
+break
+fi
+done
+fi
+
+if [ -z "$TASK_DIRECTORY" ]
+then
+    export TASK_DIRECTORY=$(dirname $0)
+fi
+
+if ! [ -d ${TASK_DIRECTORY}/graphVisualize/node_modules ]
+then
+    npm install --prefix "${TASK_DIRECTORY}/graphVisualize"
+fi
+
+if test -z "$tasksFile"  -a ! "$selectedOption" = "edit_filters"
+then
+echo "Enter tasks file name : "
+read tasksFile
+fi
+
+if [ ! -z "$tasksFile" ]
+then
+if [ ! -e $tasksFile -a "$selectedOption" = "new_plain_task_file" ]
+then
+touch $tasksFile
+cat > $tasksFile <<HERE
+tasks {
+
+  task "root task" is {
+
+    //write down some todos
+    task "todo"
+
+    //thoughts
+    thought "what color am I thinking"
+
+    //point
+    point "Im making a point"
+
+    //many points
+    points """Point A
+    Point B
+    And so on and so forth"""
+
+
+    //or an idea
+    idea "....let me think"
+
+    //or anything with attributes
+    task "to do something", toBeCompletedBefore:at("12:00"), atWhatMonthAndDate:at("07-29"), someNumberAttribute: 100, someStringAttribute:"abcd"
+
+    //or anything with sub items
+    task "to do something" is {
+      task "to do subtask of something", withAttribute:"a" is {
+          idea "Sub idea of subtask of something"
+      }
+    }
+  }
+}
+HERE
+fi
+fi
+
+if test ! -e ./CommonFilters.groovy
+then
+  cp "${TASK_DIRECTORY}/CommonFilters.groovy" ./CommonFilters.groovy
+fi
+
+
+case $selectedOption in 
+new_plain_task_file )
+  python "${TASK_DIRECTORY}/access.py" s "$tasksFile" r
+  ;;
+read_tasks )
+  python "${TASK_DIRECTORY}/access.py" p "$tasksFile" r
+  ;;
+filter_tasks )
+    python "${TASK_DIRECTORY}/access.py" p "$tasksFile" f
+  ;;
+visualize_tasks )
+  python "${TASK_DIRECTORY}/access.py" p "$tasksFile" o
+  ;;
+edit_filters ) 
+  vim ./CommonFilters.groovy
+  ;;
+tasks_to_csv )
+  python "${TASK_DIRECTORY}/access.py" p "$tasksFile" v
+  ;;
+tasks_to_json )
+  python "${TASK_DIRECTORY}/access.py" p "$tasksFile" P
+  ;;
+decrypt_task_file)
+   crypt d "$tasksFile"
+    ;;
+* ) 
+    exit 0
+    ;;
+esac
+
+

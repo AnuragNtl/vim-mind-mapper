@@ -1,0 +1,57 @@
+#!/bin/bash
+
+if ! which python > /dev/null
+then
+    echo "python not found in your path"
+    exit 1
+fi
+if ! which groovy > /dev/null
+then
+    echo "groovy not found in your path"
+    if which snap > dev/null
+    then
+    echo "Installing with snap"
+    sudo snap install groovy --classic
+    else
+    exit 1
+    fi
+fi
+if ! which node > /dev/null
+then
+    echo "nodejs not found in your path"
+    if which snap > dev/null
+    then
+    echo "Installing with snap"
+    sudo sudo snap install node --classic --channel=8
+    else
+    exit 1
+    fi
+fi
+
+if ! which vim > /dev/null
+then
+echo "vim not found in your path"
+if which snap > /dev/null
+then
+sudo snap install vim-editor --beta
+echo "Installing vim with snap"
+else
+exit 1
+fi
+fi
+
+cd src/
+pip install -r requirements.txt
+pip3 install -r requirements.txt
+npm install --prefix graphVisualize
+taskDirectory="export TASK_DIRECTORY=\"$(pwd)\""
+[ -e ~/.zshrc ] && echo $taskDirectory >> ~/.zshrc
+[ -e ~/.bashrc ] && echo $taskDirectory >> ~/.bashrc
+if test "$SHELL" = "/bin/zsh"
+then
+source ~/.zshrc
+else
+source ~/.bashrc
+fi
+sudo ln -s "$(pwd)/task" /usr/bin/task
+

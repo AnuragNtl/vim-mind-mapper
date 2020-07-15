@@ -1,4 +1,4 @@
 [
-sampleFilter: { it -> id == 0 }
+filterAllTasks: { it -> id == 0 }
 ]
 

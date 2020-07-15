@@ -16,11 +16,12 @@ from os import system
 from os import remove
 from getpass import getpass
 from os import path
+from os import getenv
 
-TASK_PROCESSOR_COMMAND = "groovy OrganiserDslProcessor.groovy ";
-VIEW_TASKS_COMMAND = "vim -u .vimrc "
-VISUALIZE_COMMAND = "npm start --prefix graphVisualize"
-GRAPH_FILE = "graphVisualize/graph.json"
+TASK_PROCESSOR_COMMAND = "groovy ${TASK_DIRECTORY}/OrganiserDslProcessor.groovy ";
+VIEW_TASKS_COMMAND = "vim -u ${TASK_DIRECTORY}/.vimrc "
+VISUALIZE_COMMAND = "npm start --prefix ${TASK_DIRECTORY}/graphVisualize"
+GRAPH_FILE = getenv("TASK_DIRECTORY") + "/graphVisualize/graph.json"
 
 def getData(filePath):
     with open(filePath, "rb") as file:
