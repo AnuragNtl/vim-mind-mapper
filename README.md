@@ -26,14 +26,14 @@ tasks {
         }
       }
     }
-    idea "Let's not spoil a classic for those who havent seen it"
+    idea "Let's not spoil it for those who havent seen it"
   }
 }
 ```
 This is always re-indented and folded when viewed in vim.
 ![fold](images/fold.gif)
 
-This gets converted to:
+This gets converted to a visualization using `sigma js`:
 ![graph](images/graph.gif)
 
 So far, it was all hierarchical, we need a graph:
@@ -51,6 +51,47 @@ tasks {
 ```
 which gives:
 ![images/colouredGraph.png](images/colouredGraph.png)
+
+What we are writing here is `Groovy` code, so we can always mix our ideas with code, to programmatically create graphs:
+For example, automatic calculation and record of expenses:
+```
+tasks {
+
+  point "expenses" is {
+
+    itemPrices = [
+	  itemA: 123,
+	  itemB: 329.43,
+	  itemN: 43
+    ];
+
+    discount = 20 //percent
+    shippingCost = 234;
+    total = 0
+
+    itemPrices.values().each {
+      price ->
+      total += price
+    }
+    
+    priceToPay = shippingCost + (total - ((discount * total) / 100.0));
+
+    point "I need to pay " + priceToPay
+  }
+
+}
+
+```
+
+After saving, this becomes:
+```
+tasks {
+  point "expenses", itemPrices:[itemA:123, itemB:329.43, itemN:43], discount:20, shippingCost:234, total:495.43, priceToPay:630.344, id:0 is {
+    point "I need to pay 630.344", id:1
+  }
+}
+```
+![expenses](images/expenses.png)
 
 ### Installation
 #### Docker (Preferred)
