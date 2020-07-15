@@ -22,11 +22,26 @@ in the browser.
 
 Clone `vim-mind-mapper`:
 ```
-git clone https://github.com/AnuragNtl/vim-mind-mapper.git
+$ git clone https://github.com/AnuragNtl/vim-mind-mapper.git
 ```
 
 Install:
 ```
-cd vim-mind-mapper
-sudo ./install
+$ cd vim-mind-mapper
+$ sudo ./install
 ```
+
+### Usage:
+On running task with `docker`, navigate to `http://localhost:8084`, which will present a menu.
+Or on running directly, the same will be displayed.
+```
+$ task
+```
+`task file` and `options` can be passed as cmdline arguments.
+
+Choose option `new_plain_task_file` to create a new mind map, or `read_tasks` to open existing encrypted task file.
+vim will open with the editable mind map and graph spec.
+By default lines are folded, which can be toggled with vim's default <kbd>Z</kbd>+<kbd>A</kbd> `[Z]`+`[A]`
+![fold](images/fold.png)
+
+`[Z]` `[A]` 
