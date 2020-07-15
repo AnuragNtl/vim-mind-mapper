@@ -2,8 +2,8 @@
 `vim` based command line mind mapping tool
 Create and manipulate complex mind maps using a simple and powerful `Groovy DSL`,
 and `vim`, which helps in lesser context switches of brain, and hence lesser disturbance
-###Installation
-####Docker (Preferred)
+### Installation
+#### Docker (Preferred)
 ```
 docker run -p 8084:8084 -p 8083:8083 -v $(pwd):/home -it anuragntl/vimmindmap:0.1.1
 ```
@@ -13,8 +13,8 @@ http://localhost:8084/
 ```
 in the browser.
 
-####Direct
-#####Requirements:
+#### Direct
+##### Requirements:
 *python
 *node js (will auto install if `snap` is present)
 *groovy (will auto install if `snap` is present)
