@@ -76,7 +76,9 @@ tasks {
     
     priceToPay = shippingCost + (total - ((discount * total) / 100.0));
 
-    point "I need to pay " + priceToPay
+    point "I need to pay " + priceToPay is {
+        point "To be paid by", toBePaidBy:at("06-12 12:00") //use at("MM-dd HH:mm") method for date and time
+    }
   }
 
 }
@@ -85,9 +87,12 @@ tasks {
 
 After saving, this becomes:
 ```
+
 tasks {
   point "expenses", itemPrices:[itemA:123, itemB:329.43, itemN:43], discount:20, shippingCost:234, total:495.43, priceToPay:630.344, id:0 is {
-    point "I need to pay 630.344", id:1
+    point "I need to pay 630.344", id:1 is {
+      point "To be paid by", toBePaidBy:at('2020-06-12 12:00'), id:2
+    }
   }
 }
 ```
