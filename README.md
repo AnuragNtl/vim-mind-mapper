@@ -32,7 +32,7 @@ tasks {
 This gets converted to:
 ![graph](images/graph.gif)
 
-So far, the graph is hierarchical, we need a graph:
+So far, it was all hierarchical, we need a graph:
 ```
 
 tasks {
