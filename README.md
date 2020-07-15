@@ -144,3 +144,31 @@ read with <kbd>Z</kbd>+<kbd>R</kbd> :
 Edit the task and save the file with vim's <kbd>:</kbd>+<kbd>w</kbd>.
 Once vim is closed, task file is encrypted with `AES` using key as `SHA256` of password entered, and then `base64`ed and this is decrypted using same process in reverse when read using `task` command.
 
+##### at() method can be used to save date in an attribute in an item, for example:
+```
+point "To do", toBeDoneBefore:at("12:00")
+```
+
+Available date formats:
+* "yyyy-MM-dd HH:mm"
+* "yyyy-MM-dd HH"
+* "yyyy-MM-dd"
+* "MM-dd HH"
+* "MM-dd"
+* "HH:mm"
+* "dd HH:mm"
+* "dd HH"
+* "mm"
+
+#####filter_tasks option can be used to filter and visualize items based on certain conditions:
+Filters conditions can be defined by adding an entry in the list contained in CommonFilters.groovy file.
+Or a filter can be input in the interactive menu.
+For example, to filter the items with isMyOpinion = false :
+```
+{it -> !isMyOpinion }
+```
+Or, the items with price to pay greater than 100:
+```
+{ it -> priceToPay >= 100 }
+```
+
