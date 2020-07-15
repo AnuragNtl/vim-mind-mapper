@@ -160,14 +160,14 @@ Available date formats:
 * "dd HH"
 * "mm"
 
-##### Filter_tasks option can be used to filter and visualize items based on certain conditions:
+##### filter_tasks option can be used to filter and visualize items based on certain conditions:
 Filters conditions can be defined by adding an entry in the list contained in CommonFilters.groovy file.
 Or a filter can be input in the interactive menu.
 For example, to filter the items with isMyOpinion = false :
 ```
 {it -> !isMyOpinion }
 ```
-Or, the items with price to pay greater than 100:
+Or, the items with priceToPay greater than 100:
 ```
 { it -> priceToPay >= 100 }
 ```
