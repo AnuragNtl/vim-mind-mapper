@@ -381,12 +381,10 @@ static void main(String[] args) {
             filteredTasks.each { filterGroup.getTaskList().add(it); println it; }
             new File(fileName) << filterGroup.toJson();
         }
+        if(root.getTaskList().size() > 0)
+            file.text =  getDsl(root.getTaskList()[0]);
         else {
-            if(root.getTaskList().size() > 0)
-                file.text =  getDsl(root.getTaskList()[0]);
-            else {
-                println "tasks {\n\n}";
-            }
+            println "tasks {\n\n}";
         }
     }
 }
