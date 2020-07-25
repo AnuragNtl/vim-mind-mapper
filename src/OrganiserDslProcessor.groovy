@@ -145,6 +145,12 @@ class Task implements GroovyInterceptable {
                 }
         }
         taskList.add(t);
+        if(t.init != null) {
+            def script = Eval.me(t.init);
+            script.delegate = t;
+            script.resolveStrategy = Closure.DELEGATE_FIRST;
+            script.call();
+        }
         return t;
     }
 
@@ -265,6 +271,12 @@ class Task implements GroovyInterceptable {
         taskSpecs.delegate = this;
         taskSpecs.resolveStrategy = Closure.DELEGATE_FIRST;
         taskSpecs.call();
+        if(end != null) {
+            def script = Eval.me(end);
+            script.delegate = this;
+            script.resolveStrategy = Closure.DELEGATE_FIRST;
+            script.call();
+        }
     }
 
     public def call(k) {
