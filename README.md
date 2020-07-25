@@ -172,3 +172,5 @@ Or, the items with priceToPay greater than 100:
 { it -> priceToPay >= 100 }
 ```
 
+##### Use `:ReloadTasks` command in vim to process the tasks while editing.
+
