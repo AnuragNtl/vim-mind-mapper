@@ -5,6 +5,7 @@ set autoindent
 set smartindent
 set number
 fu! RefreshTasks()
+   w
    !groovy ${TASK_DIRECTORY}/OrganiserDslProcessor.groovy %:t r
    e!
 endfunction
