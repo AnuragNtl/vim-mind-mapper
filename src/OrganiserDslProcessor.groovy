@@ -91,9 +91,14 @@ class Task implements GroovyInterceptable {
     public def wrapDate(s) {
         return "at('" + s.format("yyyy-MM-dd HH:mm") + "')";
     }
+
+    public def wrap(value, allProps, indent) {
+        return value instanceof CharSequence ? wrapString(value, indent) : value instanceof Date ? wrapDate(value) : value instanceof Map ? "[" + value.collect {n -> n.key + ": " + wrap(n.value, allProps, indent) }.join(", ") + "]" : value instanceof List ? "[" + value.collect { n -> wrap(n, allProps, indent) }.join(", ") + "]" : value.toString();
+    }
+
     public String getSpec(indent) {
         def allProps = [:];
-        properties.each { allProps[it.key] = it.value instanceof CharSequence ? wrapString(it.value, indent) : it.value instanceof Date ? wrapDate(it.value) : it.value.toString()}
+        properties.each { allProps[it.key] = wrap(it.value, allProps, indent); }
         allProps["id"] = id;
         def description =  allProps["description"]+ ", ";
         if(description == null) {
