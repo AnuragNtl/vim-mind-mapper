@@ -2,6 +2,10 @@
 import static java.util.Calendar.*;
 import java.text.ParseException;
 import groovy.json.JsonOutput;
+import groovy.yaml.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import static com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature.LITERAL_BLOCK_STYLE;
 
 class Task implements GroovyInterceptable {
 
@@ -246,6 +250,25 @@ class Task implements GroovyInterceptable {
 
     public def toJson() {
         return JsonOutput.toJson(toPlain());
+    }
+
+    public def asYaml() {
+
+    }
+
+    public def toYaml() {
+        def yaml = new YamlBuilder();
+        yaml { 
+            properties properties
+            taskList getTaskList(), { taskItem ->
+                task taskItem.toYaml()
+            }
+        }
+        return yaml
+    }
+
+    public def toYamlString() {
+        return toYaml().toString()
     }
 
     public def toFlatList(prefix) {
