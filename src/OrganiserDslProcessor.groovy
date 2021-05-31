@@ -252,23 +252,102 @@ class Task implements GroovyInterceptable {
         return JsonOutput.toJson(toPlain());
     }
 
-    public def asYaml() {
-
+    public static def setTaskTypeFromDescription(task) {
+        if(task.description.startsWith("\$")) {
+            def type = task.description.split(" ")[0].replace("\$", "");
+            task.type = type;
+            task.description = task.description.replaceAll(/^\$[a-z]+ /, "")
+        }
     }
 
-    public def toYaml() {
-        def yaml = new YamlBuilder();
-        yaml { 
-            properties properties
-            taskList getTaskList(), { taskItem ->
-                task taskItem.toYaml()
+    public static def setSpecificProperties(task, l) {
+        l.entrySet().each { property ->
+            if(property.value instanceof CharSequence) {
+                if(property.value.startsWith("\$")) {
+                    def propertyValue = "{ -> " + property.value[1..-1] + " }";
+                    println "Exec : $propertyValue";
+                    def k = Eval.me(propertyValue);
+                    k.delegate = task;
+                    k.resolveStrategy = Closure.DELEGATE_FIRST;
+                    task.setProperty(property.key, k.call());
+                }
             }
         }
-        return yaml
+    }
+
+    public static def fromMap(l, id, resetId=true) { try {
+        if(resetId) {
+            Task.idCount = 0;
+        }
+        println(l);
+        def task = new Task(id);
+        task.description = l.keySet()[0];
+        setTaskTypeFromDescription(task);
+        l = l.values()[0];
+        l.entrySet().each {
+            if(it.key == "taskList") return;
+            task.setProperty(it.key, it.value);
+        }
+        setSpecificProperties(task, l);
+        l["taskList"].each {
+            if(it instanceof CharSequence) {
+                def subTask = task.task(it);
+                setTaskTypeFromDescription(subTask);
+            } else {
+                task.getTaskList().add(fromMap(it, idCount++, false));
+            }
+        }
+        return task;
+        } catch(Throwable t) { t.printStackTrace(); return null; }
+    }
+
+    public def fromYaml(data) {
+        def yamlSlurper = new YamlSlurper();
+        this.getTaskList().add(fromMap(yamlSlurper.parseText(data), this.id + 1));
+        // if(id == 0) { println fromMap(fromYaml(), -1).toString(); }
+    }
+
+    public def toYaml() { try {
+        def yaml = new YamlBuilder();
+        println "converting to yaml"
+            def properties = [:];
+        this.properties.each {
+            if(!(it.key in  ["description", "id", "type"])) {
+                println([it.key, it.value])
+                    if(it.value instanceof Date) {
+                        properties[it.key] = "\$" + wrapDate(it.value);
+                    } else {
+                        properties[it.key] = it.value;
+                    }
+            }
+        }
+        def p = [:];
+        def descriptionValue =  (this.properties["type"] != null ? "\$" + this.properties["type"] + " " : "") + this.properties["description"];
+        p[descriptionValue] = properties;
+        println(p);
+        if(getTaskList() != null && getTaskList().size() > 0) {
+            p[descriptionValue]["taskList"] = getTaskList().collect { taskItem -> 
+                def taskYaml = taskItem.toYaml();
+                if(taskYaml instanceof String) {
+                    return taskYaml;
+                } else {
+                    return taskYaml.content;
+                }
+            }
+        } else if(properties.size() == 0) {
+            p = descriptionValue;
+            return p;
+        }
+        yaml(p);
+        return yaml;
+        } catch(Throwable t) {
+            t.printStackTrace();
+            return null;
+        }
     }
 
     public def toYamlString() {
-        return toYaml().toString()
+        return toYaml().toString();
     }
 
     public def toFlatList(prefix) {
@@ -314,6 +393,16 @@ class Task implements GroovyInterceptable {
     public static final String INDENT = "  ";
 
     public def getDsl(indent) {
+        def asYaml = properties["asYaml"];
+        if(asYaml == true) {
+            return indent + "yaml '''\n" + this.toYaml() + "\n'''\n";
+        } else {
+            return getTaskDsl(indent);
+        }
+
+     }
+
+    public def getTaskDsl(indent) {
         def type = properties["type"]
             if(type == null) {
                 type = "task";
@@ -449,5 +538,13 @@ public static def tasks(k) {
     t.processTasks(k);
     return t;
 }
+
+public static def yaml(s) {
+    def t = new Task(-1);
+    t.fromYaml(s);
+    return t;
+}
+
+
 
 
