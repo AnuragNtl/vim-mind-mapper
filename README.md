@@ -1,5 +1,5 @@
 # vim-mind-mapper
-**(I'm not maintaining this project for a while. I'll try to pick it up again in the near future).**
+**(I'v not been maintaining vim-mind-mapper for a while. I'll try to pick it up again in the near future, with neovim integration and lesser prerequisites maybe).**
 
 `vim` based command line mind mapping tool
 Create and manipulate complex mind maps using a simple and powerful `Groovy DSL`,
